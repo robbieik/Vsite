@@ -3,24 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intrebare</title>
+    <title> intreb</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #ffcccc;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
         h1 {
             font-size: 36px;
-            margin-top: 50px;
             color: #ff0066;
+            margin-bottom: 20px;
         }
-        #gif-container {
-            margin-top: 20px;
+        #gif-container img {
+            width: 300px;
+            margin-bottom: 20px;
         }
         #buttons {
-            margin-top: 20px;
+            display: flex;
+            gap: 20px; /* Adds spacing between buttons */
         }
         .button {
             padding: 15px 30px;
@@ -37,7 +45,7 @@
         #no {
             background-color: #666;
             color: white;
-            position: absolute;
+            position: relative;
         }
         @keyframes fall {
             from { transform: translateY(-100px); opacity: 1; }
@@ -53,10 +61,10 @@
 </head>
 <body>
  
-    <h1>Intrebare</h1>
+    <h1>intreb</h1>
  
     <div id="gif-container">
-        <img src="tom-in-love.gif" alt="Tom in love" width="300">
+        <img src="tom-in-love.gif" alt="Tom in love">
     </div>
  
     <div id="buttons">
@@ -68,12 +76,10 @@
         let noButton = document.getElementById("no");
         let yesButton = document.getElementById("yes");
  
-        noButton.style.left = "50%";
-        noButton.style.top = "60%";
- 
         noButton.addEventListener("mouseover", function() {
             let newX = Math.random() * (window.innerWidth - noButton.offsetWidth);
             let newY = Math.random() * (window.innerHeight - noButton.offsetHeight);
+            noButton.style.position = "absolute";
             noButton.style.left = newX + "px";
             noButton.style.top = newY + "px";
             yesButton.style.transform = "scale(1.2)";

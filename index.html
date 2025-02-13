@@ -156,15 +156,16 @@
         let pinkIntensity = 179; // Start cu culoarea #ffb3d9
 
         function moveNoButton() {
-            let maxWidth = Math.min(window.innerWidth - noButton.offsetWidth - 50, 1200);
-            let maxHeight = Math.min(window.innerHeight - noButton.offsetHeight - 50, 700);
+        let maxWidth = window.innerWidth - noButton.offsetWidth - 100; // Limitează poziția pe axa X
+        let maxHeight = window.innerHeight - noButton.offsetHeight - 150; // Limitează poziția pe axa Y
 
-            let newX = Math.random() * maxWidth;
-            let newY = Math.random() * maxHeight + 100; // Evită suprapunerea cu GIF-ul
+        let newX = Math.max(50, Math.random() * maxWidth); // Asigură că rămâne vizibil pe X
+        let newY = Math.max(150, Math.random() * maxHeight); // Asigură că rămâne vizibil pe Y, evitând GIF-ul
 
-            noButton.style.left = newX + "px";
-            noButton.style.top = newY + "px";
-            yesButton.style.transform = "scale(1.1)";
+        noButton.style.left = newX + "px";
+        noButton.style.top = newY + "px";
+        yesButton.style.transform = "scale(1.1)";
+
 
             if (messageIndex < messages.length - 1) {
                 messageDiv.innerText = messages[messageIndex];

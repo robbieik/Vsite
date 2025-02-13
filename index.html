@@ -47,7 +47,7 @@
             font-size: 18px;
             color: #ff0000;
             margin-bottom: 10px;
-            height: 25px; /* Pentru ca mesajele să nu mute butoanele */
+            height: 25px;
         }
         #buttons {
             display: flex;
@@ -69,7 +69,7 @@
         #no {
             background-color: #666;
             color: white;
-            position: relative;
+            position: absolute;
         }
         @keyframes fall {
             from { transform: translateY(-100px); opacity: 1; }
@@ -133,10 +133,13 @@
 
         let messageIndex = 0;
 
-        noButton.addEventListener("mouseover", function() {
-            let newX = Math.random() * (window.innerWidth - noButton.offsetWidth);
-            let newY = Math.random() * (window.innerHeight - noButton.offsetHeight);
-            noButton.style.position = "absolute";
+        function moveNoButton() {
+            let maxWidth = window.innerWidth - noButton.offsetWidth - 20;
+            let maxHeight = window.innerHeight - noButton.offsetHeight - 20;
+
+            let newX = Math.random() * maxWidth;
+            let newY = Math.random() * maxHeight;
+
             noButton.style.left = newX + "px";
             noButton.style.top = newY + "px";
             yesButton.style.transform = "scale(1.2)";
@@ -147,7 +150,10 @@
             } else {
                 messageDiv.innerText = messages[messages.length - 1];
             }
-        });
+        }
+
+        noButton.addEventListener("mouseover", moveNoButton);
+        noButton.addEventListener("click", moveNoButton); 
 
         yesButton.addEventListener("click", function() {
             noButton.style.display = "none";
@@ -155,7 +161,7 @@
             messageDiv.innerText = "";
             
             // Schimbă GIF-ul
-            gifImage.src = "After_lowres.gif"; // Pune numele noului GIF
+            gifImage.src = "After_lowres.gif"; 
 
             startHeartAnimation();
         });

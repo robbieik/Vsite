@@ -176,7 +176,6 @@
     const loveGif = document.getElementById("loveGif");
     const gifContainer = document.getElementById("gifContainer");
     
-    // Stocăm poziția inițială a butonului "Nu"
     const initNoLeft = noButton.offsetLeft;
     const initNoTop = noButton.offsetTop;
     
@@ -227,6 +226,9 @@
     
  
     yesButton.addEventListener("click", function() {
+      
+  noButton.removeEventListener("mouseover", moveNoButton);
+  noButton.removeEventListener("click", moveNoButton);
 
       yesButton.style.transform = "scale(1)";
       noButton.style.left = initNoLeft + "px";

@@ -219,8 +219,8 @@
       // Modifică butonul "Da":
       // Creștem mărimea la fiecare încercare, iar dacă mai puțin de 10 încercări, intensificăm și culoarea
       daHoverCount++;
-      const scaleFactor = 1 + daHoverCount; // Creștere graduală; după câteva încercări, butonul va acoperi ecranul
-      yesButton.style.transform = `scale(${scaleFactor})`;
+  const scaleFactor = 1 + daHoverCount * 0.1; // creștere mai lentă
+  yesButton.style.transform = `scale(${scaleFactor})`;
       
       if (daHoverCount <= 10) {
         // Culoarea inițială este rgb(255,179,217); ținta este rgb(255,0,153)

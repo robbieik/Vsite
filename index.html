@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> intreb</title>
+    <title>Vrei sa fii Valentina mea?</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #ffcccc;
+            background: url('us-background.jpg') no-repeat center center fixed;
+            background-size: cover;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -16,19 +17,42 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            position: relative;
         }
+
+        /* Overlay pentru blur */
+        #background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
         h1 {
             font-size: 36px;
             color: #ff0066;
             margin-bottom: 20px;
+            position: relative;
         }
         #gif-container img {
             width: 300px;
             margin-bottom: 20px;
+            position: relative;
+        }
+        #message {
+            font-size: 18px;
+            color: #ff0000;
+            margin-bottom: 10px;
+            height: 25px; /* Pentru ca mesajele să nu mute butoanele */
         }
         #buttons {
             display: flex;
-            gap: 20px; /* Adds spacing between buttons */
+            gap: 20px;
+            position: relative;
         }
         .button {
             padding: 15px 30px;
@@ -60,22 +84,55 @@
     </style>
 </head>
 <body>
- 
-    <h1>intreb</h1>
- 
+
+    <div id="background-overlay"></div>
+
+    <h1>Vrei sa fii Valentina mea?</h1>
+
     <div id="gif-container">
-        <img src="tom-in-love.gif" alt="Tom in love">
+        <img id="love-gif" src="tom-in-love.gif" alt="Tom in love">
     </div>
- 
+
+    <div id="message"></div>
+
     <div id="buttons">
         <button id="yes" class="button">Yes</button>
         <button id="no" class="button">No</button>
     </div>
- 
+
     <script>
         let noButton = document.getElementById("no");
         let yesButton = document.getElementById("yes");
- 
+        let messageDiv = document.getElementById("message");
+        let gifImage = document.getElementById("love-gif");
+
+        let messages = [
+            "Umm… la asta nu ma asteptam..",
+            "Ba evident ca ma asteptam, ca altfel nu faceam butonul sa fuga de tine",
+            "Stiu ca am fost PUTIN rau, dar nu merit chiar asemenea pedeapsa..",
+            "Tu chiar nu glumesti, huh?",
+            "Buuubii, opreste rautatea asta..",
+            "Daca mai incerci sa apesi 'nu', nu ma iubesti",
+            "NU MA IUBESTI?!?!?!?!?",
+            "Nu credeam ca esti capabila de asa multa rautate..",
+            "Ma doare inima..",
+            "MA DOARE INIMA, NU INTELEGI?!?!?",
+            "Iti fac pana la masina!",
+            "Daca nici asta nu te opreste..",
+            "Mda, ce sa zic… mai incearca",
+            "Nu ai cum sa apesi nu, nu intelegi?",
+            "Oricat ai incerca, nu vei reusi..",
+            "Poti sa incerci pana maaainee",
+            "Esti tare incapatanata..",
+            "Nu te las sa dai nu, pa.",
+            "Mai incearca.",
+            "Mai inceaaarca!",
+            "Cat tu transpiri aici sa apesi pe nu, eu stau linistit pe spate, in liniste hahah.",
+            "Mai incearca!"
+        ];
+
+        let messageIndex = 0;
+
         noButton.addEventListener("mouseover", function() {
             let newX = Math.random() * (window.innerWidth - noButton.offsetWidth);
             let newY = Math.random() * (window.innerHeight - noButton.offsetHeight);
@@ -83,14 +140,26 @@
             noButton.style.left = newX + "px";
             noButton.style.top = newY + "px";
             yesButton.style.transform = "scale(1.2)";
+
+            if (messageIndex < messages.length - 1) {
+                messageDiv.innerText = messages[messageIndex];
+                messageIndex++;
+            } else {
+                messageDiv.innerText = messages[messages.length - 1];
+            }
         });
- 
+
         yesButton.addEventListener("click", function() {
             noButton.style.display = "none";
             yesButton.style.transform = "scale(1)";
+            messageDiv.innerText = "";
+            
+            // Schimbă GIF-ul
+            gifImage.src = "tom-happy.gif"; // Pune numele noului GIF
+
             startHeartAnimation();
         });
- 
+
         function startHeartAnimation() {
             let heartInterval = setInterval(() => {
                 let heart = document.createElement("div");
@@ -103,6 +172,6 @@
             }, 200);
         }
     </script>
- 
+
 </body>
 </html>

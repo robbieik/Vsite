@@ -149,7 +149,7 @@
   </div>
   
   <div id="invitationText">
-    YEEEY, te invit mâine la ora 20:30 în fața blocului L17, scara 2 pentru mai multe detalii, te besc paaa!
+    YEEEY, te invit mâine la ora 20:30 în fața blocului L17, scara 2 pentru mai multe detalii
   </div>
   
   <script>
@@ -221,12 +221,12 @@
       }
       
       // Modifică butonul "Da":
-      // Mărirea se face mai lent: creștem scale-ul cu 0.1 la fiecare încercare
+      // Mărirea se face cu 0.1 la fiecare încercare
       daHoverCount++;
       const scaleFactor = 1 + daHoverCount * 0.1;
       yesButton.style.transform = `scale(${scaleFactor})`;
       
-      // De asemenea, intensificăm culoarea, până la 10 pași
+      // Intensificăm culoarea până la 10 pași
       if (daHoverCount <= 10) {
         const initialGreen = 179;
         const initialBlue = 217;
@@ -242,14 +242,14 @@
     
     // La apăsarea butonului "Da"
     yesButton.addEventListener("click", function() {
-      // Animație de revenire: setăm transformarea și poziția inițială pentru butoane
+      // Animație de revenire: revenim la starea inițială a ambelor butoane
       yesButton.style.transform = "scale(1)";
       noButton.style.left = initNoLeft + "px";
       noButton.style.top = initNoTop + "px";
       
       // Așteptăm 500ms pentru ca tranziția să fie vizibilă, apoi continuăm
       setTimeout(function() {
-        noButton.style.display = "none";
+        // Nu mai ascundem butonul "Nu" – acesta rămâne vizibil
         messageDiv.innerText = "";
         // Schimbă GIF-ul
         loveGif.src = "After_lowres.gif";

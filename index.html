@@ -38,22 +38,33 @@
             margin-bottom: 20px;
             position: relative;
         }
+
         #gif-container img {
             width: 300px;
             margin-bottom: 20px;
             position: relative;
         }
+
         #message {
             font-size: 18px;
             color: #ff0000;
             margin-bottom: 10px;
             height: 25px;
         }
+
+        #invitation {
+            font-size: 20px;
+            color: #ff0066;
+            margin-top: 20px;
+            display: none;
+        }
+
         #buttons {
             display: flex;
             gap: 20px;
             position: relative;
         }
+
         .button {
             padding: 15px 30px;
             font-size: 20px;
@@ -62,19 +73,26 @@
             border-radius: 10px;
             transition: all 0.3s ease;
         }
+
         #yes {
-            background-color: #ff3399;
+            background-color: #ffb3d9; /* Culoarea inițială mai deschisă */
             color: white;
         }
+
         #no {
             background-color: #666;
             color: white;
             position: absolute;
+            left: 50%;
+            top: 65%;
+            transform: translateX(-50%);
         }
+
         @keyframes fall {
             from { transform: translateY(-100px); opacity: 1; }
             to { transform: translateY(100vh); opacity: 0; }
         }
+
         .heart {
             position: absolute;
             color: red;
@@ -96,53 +114,57 @@
     <div id="message"></div>
 
     <div id="buttons">
-        <button id="yes" class="button">Yes</button>
-        <button id="no" class="button">No</button>
+        <button id="yes" class="button">Da</button>
+        <button id="no" class="button">Nu</button>
     </div>
+
+    <div id="invitation">Te invit mâine la ora 20:30 în fața blocului L17, scara 2 pentru mai multe detalii.</div>
 
     <script>
         let noButton = document.getElementById("no");
         let yesButton = document.getElementById("yes");
         let messageDiv = document.getElementById("message");
         let gifImage = document.getElementById("love-gif");
+        let invitationText = document.getElementById("invitation");
 
         let messages = [
-            "Umm… la asta nu ma asteptam..",
-            "Ba evident ca ma asteptam, ca altfel nu faceam butonul sa fuga de tine",
-            "Stiu ca am fost PUTIN rau, dar nu merit chiar asemenea pedeapsa..",
-            "Tu chiar nu glumesti, huh?",
-            "Buuubii, opreste rautatea asta..",
-            "Daca mai incerci sa apesi 'nu', nu ma iubesti",
-            "NU MA IUBESTI?!?!?!?!?",
-            "Nu credeam ca esti capabila de asa multa rautate..",
-            "Ma doare inima..",
-            "MA DOARE INIMA, NU INTELEGI?!?!?",
-            "Iti fac pana la masina!",
-            "Daca nici asta nu te opreste..",
-            "Mda, ce sa zic… mai incearca",
-            "Nu ai cum sa apesi nu, nu intelegi?",
-            "Oricat ai incerca, nu vei reusi..",
-            "Poti sa incerci pana maaainee",
-            "Esti tare incapatanata..",
-            "Nu te las sa dai nu, pa.",
-            "Mai incearca.",
-            "Mai inceaaarca!",
-            "Cat tu transpiri aici sa apesi pe nu, eu stau linistit pe spate, in liniste hahah.",
-            "Mai incearca!"
+            "Umm… la asta nu mă așteptam..",
+            "Ba evident că mă așteptam, că altfel nu făceam butonul să fugă de tine",
+            "Știu că am fost PUTIN rău, dar nu merit chiar asemenea pedeapsă..",
+            "Tu chiar nu glumești, huh?",
+            "Buuubii, oprește răutatea asta..",
+            "Dacă mai încerci să apeși 'nu', nu mă iubești",
+            "NU MĂ IUBEȘTI?!?!?!?!?",
+            "Nu credeam că ești capabilă de așa multă răutate..",
+            "Mă doare inima..",
+            "MA DOARE INIMA, NU ÎNȚELEGI?!?!?",
+            "Îți fac pană la mașină!",
+            "Dacă nici asta nu te oprește..",
+            "Mda, ce să zic… mai încearcă",
+            "Nu ai cum să apeși nu, nu înțelegi?",
+            "Oricât ai încerca, nu vei reuși..",
+            "Poți să încerci până mâineee",
+            "Ești tare încăpățânată..",
+            "Nu te las să dai nu, pa.",
+            "Mai încearcă.",
+            "Mai înceaaarcă!",
+            "Cât tu transpiri aici să apeși pe nu, eu stau liniștit pe spate, în liniște hahah.",
+            "Mai încearcă!"
         ];
 
         let messageIndex = 0;
+        let pinkIntensity = 179; // Start cu culoarea #ffb3d9
 
         function moveNoButton() {
-            let maxWidth = window.innerWidth - noButton.offsetWidth - 20;
-            let maxHeight = window.innerHeight - noButton.offsetHeight - 20;
+            let maxWidth = Math.min(window.innerWidth - noButton.offsetWidth - 50, 1200);
+            let maxHeight = Math.min(window.innerHeight - noButton.offsetHeight - 50, 700);
 
             let newX = Math.random() * maxWidth;
-            let newY = Math.random() * maxHeight;
+            let newY = Math.random() * maxHeight + 100; // Evită suprapunerea cu GIF-ul
 
             noButton.style.left = newX + "px";
             noButton.style.top = newY + "px";
-            yesButton.style.transform = "scale(1.2)";
+            yesButton.style.transform = "scale(1.1)";
 
             if (messageIndex < messages.length - 1) {
                 messageDiv.innerText = messages[messageIndex];
@@ -150,15 +172,22 @@
             } else {
                 messageDiv.innerText = messages[messages.length - 1];
             }
+
+            // Crește intensitatea rozului butonului "Da"
+            if (pinkIntensity < 255) {
+                pinkIntensity += 7; // Maxim 10 pași spre #ff0099
+                yesButton.style.backgroundColor = `rgb(255, ${pinkIntensity}, ${pinkIntensity})`;
+            }
         }
 
         noButton.addEventListener("mouseover", moveNoButton);
-        noButton.addEventListener("click", moveNoButton); 
+        noButton.addEventListener("click", moveNoButton);
 
         yesButton.addEventListener("click", function() {
             noButton.style.display = "none";
             yesButton.style.transform = "scale(1)";
             messageDiv.innerText = "";
+            invitationText.style.display = "block"; // Afișează invitația
             
             // Schimbă GIF-ul
             gifImage.src = "After_lowres.gif"; 

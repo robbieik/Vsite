@@ -179,47 +179,54 @@
     const initNoLeft = noButton.offsetLeft;
     const initNoTop = noButton.offsetTop;
     
-    function moveNoButton() {
-      const containerWidth = window.innerWidth;
-      const containerHeight = window.innerHeight;
-      const btnWidth = noButton.offsetWidth;
-      const btnHeight = noButton.offsetHeight;
-      const gifRect = gifContainer.getBoundingClientRect();
-      
-      let newX, newY, attempts = 0;
-      do {
-        newX = Math.random() * (containerWidth - btnWidth);
-        newY = Math.random() * (containerHeight - btnHeight);
-        attempts++;
-        if (attempts > 100) break; 
-      } while (
-        newX < gifRect.right && (newX + btnWidth) > gifRect.left &&
-        newY < gifRect.bottom && (newY + btnHeight) > gifRect.top
-      );
-      noButton.style.left = newX + "px";
-      noButton.style.top = newY + "px";
-      
-      if (messageIndex < messages.length - 1) {
-        messageDiv.innerText = messages[messageIndex];
-        messageIndex++;
-      } else {
-        messageDiv.innerText = messages[messages.length - 1];
-      }
-      
-      daHoverCount++;
-      const scaleFactor = 1 + daHoverCount * 0.1;
-      yesButton.style.transform = `scale(${scaleFactor})`;
-      
-
-      if (daHoverCount <= 10) {
-        const initialGreen = 179;
-        const initialBlue = 217;
-        const steps = 10;
-        const newGreen = Math.max(0, initialGreen - Math.round((initialGreen / steps) * daHoverCount));
-        const newBlue = Math.max(153, initialBlue - Math.round(((initialBlue - 153) / steps) * daHoverCount));
-        yesButton.style.backgroundColor = `rgb(255, ${newGreen}, ${newBlue})`;
-      }
-    }
+   let lastEventTime = 0;
+function moveNoButton() {
+  const now = Date.now();
+  if (now - lastEventTime < 300) return; // dacă evenimentul s-a declanșat în ultimele 300ms, ignoră-l
+  lastEventTime = now;
+  
+  const containerWidth = window.innerWidth;
+  const containerHeight = window.innerHeight;
+  const btnWidth = noButton.offsetWidth;
+  const btnHeight = noButton.offsetHeight;
+  const gifRect = gifContainer.getBoundingClientRect();
+  
+  let newX, newY, attempts = 0;
+  do {
+    newX = Math.random() * (containerWidth - btnWidth);
+    newY = Math.random() * (containerHeight - btnHeight);
+    attempts++;
+    if (attempts > 100) break; // prevenim bucla infinită
+  } while (
+    newX < gifRect.right && (newX + btnWidth) > gifRect.left &&
+    newY < gifRect.bottom && (newY + btnHeight) > gifRect.top
+  );
+  noButton.style.left = newX + "px";
+  noButton.style.top = newY + "px";
+  
+  // Actualizează mesajul
+  if (messageIndex < messages.length - 1) {
+    messageDiv.innerText = messages[messageIndex];
+    messageIndex++;
+  } else {
+    messageDiv.innerText = messages[messages.length - 1];
+  }
+  
+  // Mărirea butonului "Da" se face cu 0.1 la fiecare încercare
+  daHoverCount++;
+  const scaleFactor = 1 + daHoverCount * 0.1;
+  yesButton.style.transform = `scale(${scaleFactor})`;
+  
+  // Intensificăm culoarea, până la 10 pași
+  if (daHoverCount <= 10) {
+    const initialGreen = 179;
+    const initialBlue = 217;
+    const steps = 10;
+    const newGreen = Math.max(0, initialGreen - Math.round((initialGreen / steps) * daHoverCount));
+    const newBlue = Math.max(153, initialBlue - Math.round(((initialBlue - 153) / steps) * daHoverCount));
+    yesButton.style.backgroundColor = `rgb(255, ${newGreen}, ${newBlue})`;
+  }
+}
     
     noButton.addEventListener("mouseover", moveNoButton);
     noButton.addEventListener("click", moveNoButton);

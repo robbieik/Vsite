@@ -72,7 +72,7 @@
       width: 100vw;
       height: 100vh;
       z-index: 3;
-      pointer-events: none; /* Permite ca doar butoanele să primească evenimente */
+      pointer-events: none; /* Doar butoanele primesc evenimente */
     }
     
     /* Butoanele */
@@ -149,7 +149,7 @@
   </div>
   
   <div id="invitationText">
-    YEEEY, te invit mâine la ora 20:30 în fața blocului L17, scara 2 pentru mai multe detalii
+    YEEEY, te invit mâine la ora 20:30 în fața blocului L17, scara 2 pentru mai multe detalii, te besc paaa!
   </div>
   
   <script>
@@ -179,14 +179,18 @@
       "Mai incearca!"
     ];
     let messageIndex = 0;
-    let daHoverCount = 0; // Contor pentru modificări (culoare + mărime) la butonul "Da"
-
+    let daHoverCount = 0; // Contor pentru modificările butonului "Da"
+    
     const noButton = document.getElementById("noButton");
     const yesButton = document.getElementById("yesButton");
     const messageDiv = document.getElementById("message");
     const loveGif = document.getElementById("loveGif");
     const gifContainer = document.getElementById("gifContainer");
-
+    
+    // Stocăm poziția inițială a butonului "Nu"
+    const initNoLeft = noButton.offsetLeft;
+    const initNoTop = noButton.offsetTop;
+    
     // Funcție pentru mutarea butonului "Nu" în interiorul ecranului, evitând zona GIF-ului
     function moveNoButton() {
       const containerWidth = window.innerWidth;
@@ -217,13 +221,13 @@
       }
       
       // Modifică butonul "Da":
-      // Creștem mărimea la fiecare încercare, iar dacă mai puțin de 10 încercări, intensificăm și culoarea
+      // Mărirea se face mai lent: creștem scale-ul cu 0.1 la fiecare încercare
       daHoverCount++;
-  const scaleFactor = 1 + daHoverCount * 0.1; // creștere mai lentă
-  yesButton.style.transform = `scale(${scaleFactor})`;
+      const scaleFactor = 1 + daHoverCount * 0.1;
+      yesButton.style.transform = `scale(${scaleFactor})`;
       
+      // De asemenea, intensificăm culoarea, până la 10 pași
       if (daHoverCount <= 10) {
-        // Culoarea inițială este rgb(255,179,217); ținta este rgb(255,0,153)
         const initialGreen = 179;
         const initialBlue = 217;
         const steps = 10;
@@ -238,14 +242,22 @@
     
     // La apăsarea butonului "Da"
     yesButton.addEventListener("click", function() {
-      noButton.style.display = "none";
-      messageDiv.innerText = "";
-      // Schimbă GIF-ul
-      loveGif.src = "After_lowres.gif";
-      // Afișează textul de invitație
-      document.getElementById("invitationText").style.display = "block";
-      // Pornește animația inimioarelor
-      startHeartAnimation();
+      // Animație de revenire: setăm transformarea și poziția inițială pentru butoane
+      yesButton.style.transform = "scale(1)";
+      noButton.style.left = initNoLeft + "px";
+      noButton.style.top = initNoTop + "px";
+      
+      // Așteptăm 500ms pentru ca tranziția să fie vizibilă, apoi continuăm
+      setTimeout(function() {
+        noButton.style.display = "none";
+        messageDiv.innerText = "";
+        // Schimbă GIF-ul
+        loveGif.src = "After_lowres.gif";
+        // Afișează textul de invitație
+        document.getElementById("invitationText").style.display = "block";
+        // Pornește animația inimioarelor
+        startHeartAnimation();
+      }, 500);
     });
     
     // Funcția pentru animația inimioarelor

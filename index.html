@@ -5,81 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Valentine's Day</title>
   <style>
-    /* Resetări de bază */
+    /* Reset de bază */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    
+
     body {
       font-family: Arial, sans-serif;
       background: url('IMG_4172.jpeg') no-repeat center center fixed;
       background-size: cover;
-      position: relative;
       overflow: hidden;
+      position: relative;
     }
-    
-    /* Stratul de blur peste background */
+    /* Stratul de blur care acoperă întregul fundal */
     #background-overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       background-color: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       z-index: 1;
     }
-    
-    /* Textul de întâmpinare inițial (splash) */
-    #splashText {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 36px;
-      color: #ff0066;
-      z-index: 2;
-      opacity: 1;
-      transition: opacity 1s ease;
-    }
-    
-    /* Conținutul principal, ascuns inițial */
+    /* Conținutul principal */
     #mainContent {
-      display: none;
       position: relative;
       z-index: 2;
       text-align: center;
-      padding-top: 20px;
+      padding-top: 50px;
     }
-    
     #mainContent h1 {
       font-size: 36px;
       color: #ff0066;
       margin-bottom: 20px;
     }
-    
+    /* Containerul pentru GIF */
     #gifContainer {
       margin: 0 auto 20px;
+      position: relative;
+      display: inline-block;
     }
-    
     #gifContainer img {
       width: 300px;
       max-width: 100%;
     }
-    
-    /* Div pentru mesajele deasupra butoanelor */
+    /* Mesajul deasupra butoanelor */
     #message {
       font-size: 18px;
       color: #ff0000;
       height: 30px;
       margin-bottom: 10px;
     }
-    
-    /* Containerul pentru butoane, cu dimensiuni fixe */
+    /* Containerul pentru butoane – acoperă întregul ecran, dar este invizibil */
     #buttonContainer {
-      position: relative;
-      width: 500px;
-      height: 150px;
-      margin: 0 auto;
-      border: 2px dashed #ccc; /* Chenar vizual (opțional) */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 3;
+      pointer-events: none; /* Permite ca doar butoanele să primească evenimente */
     }
-    
+    /* Butoanele */
     .button {
       padding: 15px 30px;
       font-size: 20px;
@@ -88,43 +74,42 @@
       cursor: pointer;
       transition: all 0.3s ease;
       position: absolute;
+      pointer-events: auto; /* Permite click și hover pe butoane */
     }
-    
-    /* Butonul "Da" (inițial culoare #ffb3d9 = rgb(255,179,217)) */
+    /* Butonul "Da" – culoare inițială rgb(255,179,217) */
     #yesButton {
-      background-color: rgb(255, 179, 217);
+      background-color: rgb(255,179,217);
       color: white;
-      left: 50px;
-      top: 50%;
-      transform: translateY(-50%);
+      /* poziționare inițială: sub GIF, puțin spre stânga */
+      left: calc(50% - 140px);
+      top: calc(50% + 150px);
     }
-    
     /* Butonul "Nu" */
     #noButton {
       background-color: #666;
       color: white;
-      right: 50px;
-      top: 50%;
-      transform: translateY(-50%);
+      /* poziționare inițială: sub GIF, puțin spre dreapta */
+      left: calc(50% + 20px);
+      top: calc(50% + 150px);
     }
-    
-    /* Textul care apare după apăsarea butonului "Da" */
+    /* Textul de invitație, apărut după ce se apasă "Da" */
     #invitationText {
       font-size: 20px;
       color: #ff0066;
       margin-top: 20px;
       display: none;
+      text-align: center;
+      position: relative;
+      z-index: 2;
     }
-    
-    /* Stilul inimioarelor care cad */
+    /* Inimioarele care cad */
     .heart {
       position: absolute;
       color: red;
       font-size: 30px;
       animation: fall linear infinite;
-      z-index: 3;
+      z-index: 4;
     }
-    
     @keyframes fall {
       from { transform: translateY(-100px); opacity: 1; }
       to { transform: translateY(100vh); opacity: 0; }
@@ -134,37 +119,24 @@
 <body>
   <div id="background-overlay"></div>
   
-  <!-- Textul de întâmpinare -->
-  <div id="splashText">Hei Bub, .. As vrea sa te intreb ceva...</div>
-  
-  <!-- Conținutul principal, care apare după 7 secunde -->
   <div id="mainContent">
-    <h1>Vrei sa fii Valentine mea?</h1>
+    <h1>Vrei să fii Valentine mea?</h1>
     <div id="gifContainer">
       <img id="loveGif" src="Initial_GIF_lowres.gif" alt="Valentine GIF">
     </div>
     <div id="message"></div>
-    <div id="buttonContainer">
-      <button id="yesButton" class="button">Da</button>
-      <button id="noButton" class="button">Nu</button>
-    </div>
-    <div id="invitationText">
-      YEEEY, te invit mâine la ora 20:30 în fața blocului L17, scara 2 pentru mai multe detalii
-    </div>
+  </div>
+  
+  <div id="buttonContainer">
+    <button id="yesButton" class="button">Da</button>
+    <button id="noButton" class="button">Nu</button>
+  </div>
+  
+  <div id="invitationText">
+    YEEEY, te invit mâine la ora 20:30 în fața blocului L17, scara 2 pentru mai multe detalii
   </div>
   
   <script>
-    // La încărcarea paginii, după 7 secunde textul de întâmpinare dispare și se arată conținutul principal
-    window.addEventListener('load', function(){
-      setTimeout(function(){
-        document.getElementById('splashText').style.opacity = 0;
-        setTimeout(function(){
-          document.getElementById('splashText').style.display = 'none';
-          document.getElementById('mainContent').style.display = 'block';
-        }, 1000);
-      }, 7000);
-    });
-    
     // Lista de mesaje pentru butonul "Nu"
     const messages = [
       "Umm… la asta nu ma asteptam..",
@@ -191,34 +163,36 @@
       "Mai incearca!"
     ];
     let messageIndex = 0;
-    
-    // Contor pentru modificarea culorii butonului "Da"
-    let daHoverCount = 0;
-    
+    let daHoverCount = 0; // Pentru intensificarea culorii butonului "Da"
+
     const noButton = document.getElementById("noButton");
     const yesButton = document.getElementById("yesButton");
     const messageDiv = document.getElementById("message");
-    const buttonContainer = document.getElementById("buttonContainer");
     const loveGif = document.getElementById("loveGif");
-    const invitationText = document.getElementById("invitationText");
-    
+    const gifContainer = document.getElementById("gifContainer");
+
+    // Funcție pentru mutarea butonului "Nu" în interiorul ecranului, evitând zona GIF-ului
     function moveNoButton() {
-      // Obține dimensiunile containerului
-      const containerWidth = buttonContainer.clientWidth;
-      const containerHeight = buttonContainer.clientHeight;
+      const containerWidth = window.innerWidth;
+      const containerHeight = window.innerHeight;
+      const btnWidth = noButton.offsetWidth;
+      const btnHeight = noButton.offsetHeight;
+      const gifRect = gifContainer.getBoundingClientRect();
       
-      // Calculăm noua poziție pentru butonul "Nu" (pe jumătatea dreaptă a containerului)
-      const minX = containerWidth / 2;
-      const maxX = containerWidth - noButton.offsetWidth - 20; // cu un mic margin
-      const newX = minX + Math.random() * (maxX - minX);
-      
-      // Poziția pe axa Y, cu o margine de 20px de sus și jos
-      const maxY = containerHeight - noButton.offsetHeight - 20;
-      const newY = 20 + Math.random() * (maxY - 20);
-      
+      let newX, newY, attempts = 0;
+      do {
+        newX = Math.random() * (containerWidth - btnWidth);
+        newY = Math.random() * (containerHeight - btnHeight);
+        attempts++;
+        // Se repetă dacă noua poziție intersectează zona GIF-ului
+        if (attempts > 100) break;
+      } while (
+        newX < gifRect.right && (newX + btnWidth) > gifRect.left &&
+        newY < gifRect.bottom && (newY + btnHeight) > gifRect.top
+      );
       noButton.style.left = newX + "px";
       noButton.style.top = newY + "px";
-      
+
       // Actualizează mesajul deasupra butoanelor
       if (messageIndex < messages.length - 1) {
         messageDiv.innerText = messages[messageIndex];
@@ -227,10 +201,10 @@
         messageDiv.innerText = messages[messages.length - 1];
       }
       
-      // Modifică intensitatea culorii butonului "Da" (maxim 10 pași)
+      // Intensifică culoarea butonului "Da" (maximum 10 pași)
       if (daHoverCount < 10) {
         daHoverCount++;
-        // Culoarea inițială este rgb(255,179,217) iar ținta este rgb(255,0,153)
+        // Culoarea inițială este rgb(255,179,217); ținta este rgb(255,0,153)
         const initialGreen = 179;
         const initialBlue = 217;
         const steps = 10;
@@ -239,41 +213,32 @@
         yesButton.style.backgroundColor = `rgb(255, ${newGreen}, ${newBlue})`;
       }
     }
-    
-    // Atașează evenimentele pentru butonul "Nu"
+
     noButton.addEventListener("mouseover", moveNoButton);
     noButton.addEventListener("click", moveNoButton);
-    
-    // Când se apasă butonul "Da"
-    yesButton.addEventListener("click", function(){
-      // Ascundem butonul "Nu" și mesajul
+
+    // La apăsarea butonului "Da"
+    yesButton.addEventListener("click", function() {
       noButton.style.display = "none";
       messageDiv.innerText = "";
-      
-      // Schimbă imaginea GIF
+      // Schimbă GIF-ul
       loveGif.src = "After_lowres.gif";
-      
       // Afișează textul de invitație
-      invitationText.style.display = "block";
-      
+      document.getElementById("invitationText").style.display = "block";
       // Pornește animația inimioarelor
       startHeartAnimation();
     });
-    
-    // Funcție pentru animația inimioarelor
+
+    // Funcția pentru animația inimioarelor
     function startHeartAnimation() {
       const heartInterval = setInterval(() => {
         const heart = document.createElement("div");
         heart.classList.add("heart");
         heart.innerText = "❤️";
-        // Poziție orizontală aleatoare
         heart.style.left = Math.random() * 100 + "vw";
-        // Durata animației între 3 și 5 secunde
         heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
         document.body.appendChild(heart);
-        setTimeout(() => {
-          heart.remove();
-        }, 5000);
+        setTimeout(() => { heart.remove(); }, 5000);
       }, 200);
     }
   </script>
